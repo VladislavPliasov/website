@@ -27,7 +27,7 @@ variable "aws_image_id" {
 
 variable "aws_instance_type" {
   type    = string
-  default = "t3.small"
+  default = "t3.medium"
 }
 
 variable "aws_key_name" {
