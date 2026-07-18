@@ -24,7 +24,7 @@ namespace OLX.API.Extensions
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
-        public static void AddOlxApiConfigurations(this IServiceCollection services,IConfiguration configuration)
+        public static void AddOlxApiConfigurations(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllers().AddJsonOptions(options =>
             {
@@ -56,7 +56,8 @@ namespace OLX.API.Extensions
                 };
                 cfg.Events = new JwtBearerEvents
                 {
-                    OnMessageReceived = (context) => {
+                    OnMessageReceived = (context) =>
+                    {
                         var accessToken = context.Request.Query["access_token"];
 
                         var path = context.HttpContext.Request.Path;
@@ -70,7 +71,7 @@ namespace OLX.API.Extensions
                     }
                 };
             });
-  
+
             services.Configure<DataProtectionTokenProviderOptions>(options =>
             {
                 options.TokenLifespan = TimeSpan.FromMinutes(Double.Parse(configuration["TokenLifespanMinutes"]!)); // Термін дії токенів для відновлення та підтвердження
@@ -110,7 +111,7 @@ namespace OLX.API.Extensions
                 options.AddPolicy("AllowOrigins",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:5173","http://10.20.42.134")
+                    builder.WithOrigins("http://localhost:5173", "http://10.20.42.134")
                            .AllowAnyHeader()
                            .AllowAnyMethod()
                            .AllowCredentials();
@@ -130,7 +131,7 @@ namespace OLX.API.Extensions
 
             string imagesDir = Path.Combine(Directory.GetCurrentDirectory(), configuration["ImagesDir"]!);
             string imagesPath = Path.Combine(Directory.GetCurrentDirectory(), configuration["ServerImagePath"]!);
-           
+
             if (!Directory.Exists(imagesDir))
             {
                 Directory.CreateDirectory(imagesDir);
