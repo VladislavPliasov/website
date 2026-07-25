@@ -1,0 +1,43 @@
+#!groovy
+
+pipeline {
+    agent none
+
+    environment {
+        IMAGE_NAME_FRONT = "macnaer/frontend"
+    }
+
+    stages {
+        stage("Build Website Frontend image") {
+            steps {
+                echo 'Building Frontend image ...'
+                sh """
+                    cd OLX.Frontend
+                    docker build --no-cache \
+                        -t ${IMAGE_NAME_FRONT}:${env.BUILD_NUMBER} \
+                        -t ${IMAGE_NAME_FRONT}:latest \
+                        .
+                    cd ..    
+                """
+            }
+        }
+
+
+        stage("Deploy Website Frontend on remote server") {
+            steps {
+                echo "Deploying Website Frontend on remote server ..."  
+                sh """
+                        cd Tools/
+                        pwd
+                        ls -l
+                        docker compose down --remove-orphans || true
+
+                        IMAGE_TAG=${env.BUILD_NUMBER} docker compose up -d
+                        docker image prune -f
+                        cd ..
+                """
+            }
+        }
+
+    }
+}

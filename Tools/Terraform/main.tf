@@ -35,7 +35,8 @@ resource "aws_security_group_rule" "ingress_rule" {
   for_each = {
     "ssh"  = { from_port = 22, to_port = 22, protocol = "tcp", description = "SSH access" }
     "http" = { from_port = 80, to_port = 80, protocol = "tcp", description = "HTTP access" }
-    "sql"  = { from_port = 1433, to_port = 1433, protocol = "tcp", description = "SQL Server access" }
+    "http" = { from_port = 8080, to_port = 8080, protocol = "tcp", description = "HTTP access" }
+    "sql"  = { from_port = 5432, to_port = 5432, protocol = "tcp", description = "SQL Server access" }
     "icmp" = { from_port = -1, to_port = -1, protocol = "icmp", description = "ICMP ping" }
   }
   type              = "ingress"
