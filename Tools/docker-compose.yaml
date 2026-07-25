@@ -37,4 +37,4 @@ services:
     image: macnaer/frontend
     restart: on-failure
     ports:
-      - "80:80"
+      - "80:5173"
